@@ -1,0 +1,21 @@
+# build output
+dist/
+
+api_requests.py
+bot_2.py
+bot.py
+prueba_api.py
+prueba_deposito.py
+
+# dependencies
+node_modules/
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
