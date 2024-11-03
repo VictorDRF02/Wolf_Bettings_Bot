@@ -95,10 +95,15 @@ Contains the information of the menus by the next format:\n
 }
 ```
 """
+async def depositar():
+    print("depositar")
 
-async def show_menu(update, menu_options):
+methods = {
+    "depositar":depositar,
+}
+
+async def show_menu(update: Update, menu_options):
     """Shows a menu by the menu_options param"""
-    print(menu_options)
     reply_markup = InlineKeyboardMarkup(menu_options['keyboard'])
     query = update.callback_query
     if query:
@@ -108,7 +113,7 @@ async def show_menu(update, menu_options):
             reply_markup=reply_markup
         )
     else: 
-        await update.message.reply_text(menu_options['reply_text'],reply_markup=reply_markup)
+        await update.message.reply_text(menu_options['reply_text'], reply_markup=reply_markup)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Method that runs at the program start and displays the principal menu"""
@@ -124,7 +129,10 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Navegación entre menús
     try:
-        await show_menu(update=update, menu_options=menus[query.data])
+        if query.data in menus:
+            await show_menu(update=update, menu_options=menus[query.data])
+        elif query.data in methods:
+            await methods[query.data]()
     except:
         await query.message.reply_text(f'Todavía no se ha definido nada para esta opción: {query.data}')
 
